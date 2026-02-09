@@ -114,7 +114,7 @@
         fetch('{% url "train_model" %}', {
             method: 'POST',
             headers: {
-                'X-CSRFToken': '{{ csrf_token }}' # CSRF is actually handled by cookie usually but let's try this
+                'X-CSRFToken': '{{ csrf_token }}' // CSRF is actually handled by cookie usually but let's try this
             }
         })
         .then(response => response.json())
