@@ -1,0 +1,35 @@
+{
+    "ingredients": [
+        {"name": "Flour", "unit": "kg"},
+        {"name": "Tomato", "unit": "kg"},
+        {"name": "Cheese", "unit": "kg"},
+        {"name": "Lettuce", "unit": "head"},
+        {"name": "Beef Patty", "unit": "pcs"}
+    ],
+    "bom": [
+        {
+            "item_category": "Pizza",
+            "ingredients": [
+                {"name": "Flour", "qty": 0.2},
+                {"name": "Tomato", "qty": 0.1},
+                {"name": "Cheese", "qty": 0.15}
+            ]
+        },
+        {
+            "item_category": "Burger",
+            "ingredients": [
+                {"name": "Beef Patty", "qty": 1},
+                {"name": "Lettuce", "qty": 0.1},
+                {"name": "Tomato", "qty": 0.05},
+                {"name": "Flour", "qty": 0.1}
+            ]
+        },
+        {
+            "item_category": "Salad",
+            "ingredients": [
+                {"name": "Lettuce", "qty": 0.5},
+                {"name": "Tomato", "qty": 0.2}
+            ]
+        }
+    ]
+}

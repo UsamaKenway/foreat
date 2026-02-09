@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md overflow-hidden mt-10 p-8">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Map CSV Columns</h2>
+    <p class="text-gray-600 mb-6">Match your CSV headers to the system fields.</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+            {% for field in system_fields %}
+            <div class="sm:col-span-3">
+                <label for="map_{{ field }}" class="block text-sm font-medium text-gray-700 capitalize">{{ field|cut:"_"|title }}</label>
+                <div class="mt-1">
+                    <select id="map_{{ field }}" name="map_{{ field }}" class="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md">
+                        <option value="">-- Select Header --</option>
+                        {% for header in headers %}
+                        <option value="{{ header }}">{{ header }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="mt-8 pt-5 border-t border-gray-200">
+            <div class="flex justify-end">
+                <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    Import Data
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
