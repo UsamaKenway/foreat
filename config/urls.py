@@ -24,4 +24,6 @@ urlpatterns = [
     path('', include('core.urls')),
     path('sales/', include('sales.urls')),
     path('forecast/', include('forecast.urls')),
+    path('reservations/', include('reservations.urls')),
+    path('competitor/', include('competitor_intel.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

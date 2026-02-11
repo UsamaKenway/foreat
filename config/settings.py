@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'sales',
     'market_signals',
     'forecast',
+    'reservations',
+    'competitor_intel',
 ]
 
 MIDDLEWARE = [

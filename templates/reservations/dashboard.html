@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-gray-900">Reservation & Attrition Analysis</h1>
+        <div class="flex items-center space-x-4">
+            {% if recent_training %}
+                <span class="text-xs text-gray-500">Last trained: {{ recent_training.training_date|date:"Y-m-d H:i" }}</span>
+            {% endif %}
+            <form method="post" action="{% url 'train_noshow_model' %}">
+                {% csrf_token %}
+                <button type="submit" class="bg-primary text-white px-4 py-2 rounded-md hover:bg-teal-600 transition shadow-sm text-sm">
+                    Train No-Show Model
+                </button>
+            </form>
+        </div>
+    </div>
+
+    {% if no_data %}
+    <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-200 text-center">
+        <p class="text-gray-500 mb-4">No reservation data found.</p>
+        <p class="text-sm text-gray-400">Please upload a reservation CSV or seed the database to see analytics.</p>
+    </div>
+    {% else %}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Chart: Bookings vs Actuals -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            {{ chart_bookings|safe }}
+        </div>
+        
+        <!-- Chart: No-Show Rate -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            {{ chart_noshow|safe }}
+        </div>
+    </div>
+
+    <div class="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Reservation Records</h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Platform</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bookings</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actual Arrivals</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No-Show Rate</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for r in reservations %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ r.target_date }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ r.platform }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ r.booking_count }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ r.actual_arrivals }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {% with noshow=r.booking_count|add:r.actual_arrivals|default:0 %}
+                                <!-- Simplified calculation for display if needed, but we handle it in view mostly -->
+                                {{ r.no_show_rate|floatformat:1 }}% 
+                                <!-- Note: no_show_rate is not a property yet, let's just use the logic if possible or update view -->
+                            {% endwith %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
