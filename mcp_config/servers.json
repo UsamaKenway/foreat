@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "mcp-google-map": { "transport": "http", "url": "http://localhost:3000/mcp" },
+    "firecrawl": {
+       "command": "npx", "args": ["-y", "firecrawl-mcp"],
+       "env": { "FIRECRAWL_API_KEY": "fc-17c78d7507b84878a75ac2fdb6208c5b" }
+    }
+  }
+}
